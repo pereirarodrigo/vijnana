@@ -1,0 +1,16 @@
+policy_args:
+  num_cells: 256
+  lr: !!float 3e-4
+  max_grad_norm: 0.5
+
+curiosity_args:
+  rnd_lmbda: 1.0
+  norm_decay: 0.99
+  intrinsic_scale: 1.0
+  norm_eps: !!float 1e-9
+
+exp_args:
+  env_id: "MiniGrid-Empty-5x5-v0"
+  save_path: "saved_models/"
+  num_steps: !!int 500
+  rollout_steps: !!int 128
