@@ -1,9 +1,10 @@
 import gymnasium as gym
 
 import torch.nn as nn
+from modelling.curiosity import RND
 from torch.optim import Adam, Optimizer
-from torch.optim.lr_scheduler import CosineAnnealingLR
-from modelling.network import layer_init, RND, RecurrentConvNet
+from modelling.feature import layer_init, RecurrentConvNet
+from torch.optim.lr_scheduler import CosineAnnealingLR, LRScheduler
 
 from typing import List, Tuple
 
@@ -33,12 +34,16 @@ def build_actor_critic(env: gym.Env, config: dict, device: str) -> Tuple[nn.Modu
     ).to(device)
 
     # Define the actor and critic networks
-    actor_head = layer_init(
-        nn.Linear(config["policy_args"]["num_cells"], action_dim)
+    actor_head = nn.Sequential(
+        layer_init(nn.Linear(config["policy_args"]["num_cells"], 128)),
+        nn.ReLU(),
+        layer_init(nn.Linear(128, action_dim)),
     ).to(device)
 
-    critic_head = layer_init(
-        nn.Linear(config["policy_args"]["num_cells"], 1)
+    critic_head = nn.Sequential(
+        layer_init(nn.Linear(config["policy_args"]["num_cells"], 128)),
+        nn.ReLU(),
+        layer_init(nn.Linear(128, 1)),
     ).to(device)
 
     return actor_head, critic_head, shared_encoder
@@ -50,7 +55,7 @@ def build_policy_optim(
     rnd_module: RND,
     shared_encoder: nn.Module,
     config: dict
-) -> Tuple[Optimizer, CosineAnnealingLR, List]:
+) -> Tuple[Optimizer, LRScheduler, List]:
     """
     Create the loss optimizer and learning rate scheduler for training.
     """
@@ -63,7 +68,7 @@ def build_policy_optim(
     optim = Adam(combined_params, lr = config["policy_args"]["lr"], eps = 1e-5)
 
     scheduler = CosineAnnealingLR(
-        optim, config["exp_args"]["num_steps"], 0.0
+        optim, config["exp_args"]["improv_iters"] * config["exp_args"]["num_pol_updates"], 0.0
     )
 
     return optim, scheduler, combined_params

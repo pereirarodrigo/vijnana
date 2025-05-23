@@ -1,16 +1,19 @@
 policy_args:
-  num_cells: 256
-  lr: !!float 3e-4
-  max_grad_norm: 0.5
+  num_cells: !!int 256
+  lr: !!float 2e-5
+  max_grad_norm: !!float 0.5
 
 curiosity_args:
-  rnd_lmbda: 1.0
-  norm_decay: 0.99
-  intrinsic_scale: 1.0
-  norm_eps: !!float 1e-9
+  rnd_lmbda: !!float 0.5
+  norm_decay: !!float 0.99
+  norm_eps: !!float 1e-8
 
 exp_args:
   env_id: "MiniGrid-Empty-5x5-v0"
   save_path: "saved_models/"
-  num_steps: !!int 500
-  rollout_steps: !!int 128
+  num_steps: !!int 64
+  rollout_steps: !!int 64
+  improv_iters: !!int 30
+  total_meta_episodes: !!int 5
+  num_pol_updates: !!int 4
+  meta_ep_per_pol_upd: !!int 2

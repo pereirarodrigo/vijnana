@@ -1,12 +1,13 @@
 import os
 import yaml
+import minigrid
 from tqdm import tqdm
 import gymnasium as gym
 from collections import defaultdict
 from torch.utils.tensorboard import SummaryWriter
 
 import torch
-from utils.train import train_policy
+from utils import train_policy
 from modelling.reward_norm import IntrinsicRewardNormaliser
 from modelling.policy import prepare_curiosity_module, build_actor_critic, build_policy_optim
 
@@ -34,20 +35,20 @@ def main() -> None:
     os.makedirs(full_path, exist_ok = True)
 
     # Create an env based on the config
-    env = gym.make(env_id = config["exp_args"]["env_id"], render_mode = None)
+    env = gym.make(id = config["exp_args"]["env_id"], render_mode = None)
 
     # Define and build the policy
-    policy_module, critic_module, shared_module = build_actor_critic(env, config, device)
+    policy_module, critic_module, feature_ext = build_actor_critic(env, config, device)
 
     # Prepare the curiosity module
-    rnd_module = prepare_curiosity_module(shared_module, device)
+    rnd_module = prepare_curiosity_module(feature_ext, device)
 
     # Definite the loss, optimiser and LR scheduler
     optimiser, scheduler, combined_net_params = build_policy_optim(
         actor_head = policy_module, 
         critic_head = critic_module, 
         rnd_module = rnd_module, 
-        shared_encoder = shared_module,
+        shared_encoder = feature_ext,
         config = config
     )
 
@@ -61,7 +62,7 @@ def main() -> None:
     # Define logs and a progress bar
     logs = defaultdict(list)
     logger = SummaryWriter(log_dir = f"runs/{config['exp_args']['env_id']}_pg_rl2")
-    progress_bar = tqdm(total = config["exp_args"]["num_steps"])
+    progress_bar = tqdm(total = config["exp_args"]["improv_iters"])
 
     # Train the policy
     train_policy(
@@ -69,7 +70,7 @@ def main() -> None:
         policy_module = policy_module,
         critic_module = critic_module,
         rnd_module = rnd_module,
-        shared_module = shared_module,
+        feature_ext = feature_ext,
         intrinsic_norm = intrinsic_norm,
         optimiser = optimiser,
         scheduler = scheduler,

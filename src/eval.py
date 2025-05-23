@@ -2,7 +2,7 @@ import yaml
 import torch
 import minigrid
 import gymnasium
-from utils.train_utils import preprocess_obs
+from utils import preprocess_obs
 from modelling.policy import prepare_curiosity_module, build_actor_critic, build_policy_optim
 
 
