@@ -1,4 +1,4 @@
-<img src="img/logo.png" width="550px" height="160px"></img><br>
+<img src="img/logo.png" width="500px" height="150px"></img><br>
 
 Vijñāna (from Sanskrit, "consciousness") is a proof-of-concept, reinforcement learning-based system that, essentially, "learns to learn how to be curious". This is the companion code to the paper "Temporal Meta-Curiosity via Recurrent Self-Reinforcing Intrinsic Meta-Learning" and is an application of the proposed Recurrent Intrinsic Meta-Learner (RIML) architecture.
 
