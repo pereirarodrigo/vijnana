@@ -11,5 +11,5 @@ The project name draws inspiration from the Buddhist traditions of Yogācāra, w
 
 Vijñāna leverages a mix of intrinsic curiosity-derived rewards, temporal encoding, and meta-learning to condition its own subsequent curiosity in the face of novel situations. There is no external goal-shaping - the system is to structure objectives on its own.
 
-<img src="img/architecture.png" width="700px" height="400px"><br>
-<p style="font-size: 10px;">Simplified system architecture, highlighting Vijñāna's core components and operations</p>
+<img src="img/architecture.png" width="700px" height="400px">
+<p><i>Simplified system architecture, highlighting Vijñāna's core components and operations</i></p>
