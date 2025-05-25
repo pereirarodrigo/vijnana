@@ -13,4 +13,3 @@ Vijñāna leverages a mix of intrinsic curiosity-derived rewards, temporal encod
 
 <img src="img/architecture.png" width="700px" height="400px">
 
-*Simplified system architecture, highlighting Vijñāna's core components and operations*
