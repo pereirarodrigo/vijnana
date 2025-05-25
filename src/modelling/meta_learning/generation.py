@@ -45,7 +45,7 @@ def generate_meta_episode(
             
             # Append rollout data
             obs_seq.append(obs_tensor.squeeze(0))
-            ext_rew_episode.append(torch.tensor(rewards, dtype=torch.float32).unsqueeze(0))
+            ext_rew_episode.append(torch.tensor(rewards, dtype = torch.float32).unsqueeze(0))
 
             # Ensure action is scalar tensor
             if isinstance(action, torch.Tensor):
@@ -67,16 +67,15 @@ def generate_meta_episode(
                 feats, _ = feature_ext(obs_tensor_seq)
             
             targets, preds = rnd_module(feats.squeeze(0))
-            intrinsic_r = compute_intrinsic_reward(preds, targets).detach()
             raw_rnd = compute_intrinsic_reward(preds, targets).detach()
             rnd_loss = nn.MSELoss()(preds, targets)
 
-            intrinsic_norm.update(intrinsic_r)
+            intrinsic_norm.update(raw_rnd)
 
             norm_rnd = intrinsic_norm.normalise(raw_rnd)
 
             # Append intrinsic rewards
-            rew_seq.append(intrinsic_r[-1].unsqueeze(0))
+            rew_seq.append(raw_rnd[-1].unsqueeze(0))
 
             # Append RND-specific data
             raw_rnds.append(raw_rnd.mean().item())
