@@ -4,6 +4,8 @@ import minigrid
 import gymnasium
 from utils import preprocess_obs
 from modelling.policy import build_policy
+from gymnasium.wrappers.record_video import RecordVideo
+from gymnasium.wrappers.record_episode_statistics import RecordEpisodeStatistics
 
 
 # Load the config (YAML) file
@@ -17,8 +19,19 @@ device = (
     else torch.device("cpu")
 )
 
+# Set the number of evaluation episodes
+num_eval_episodes = 200
 
+
+# Setting up the env and recording options
 env = gymnasium.make("MiniGrid-Unlock-v0", render_mode = "human")
+env = RecordVideo(
+    env, 
+    video_folder = "recordings/minigrid-unlock-agent", 
+    name_prefix = "eval",
+    episode_trigger = lambda x: True
+)
+env = RecordEpisodeStatistics(env, buffer_length = num_eval_episodes)
 observation, info = env.reset()
 
 policy_module, shared_module = build_policy(env, config, device)
@@ -29,7 +42,7 @@ policy_module.eval()
 obs, info = env.reset()
 h_state = None
 
-for _ in range(200):
+for _ in range(num_eval_episodes):
     env.render()
     obs_tensor = preprocess_obs(observation, device)
 
