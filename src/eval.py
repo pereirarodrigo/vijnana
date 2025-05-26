@@ -3,7 +3,7 @@ import torch
 import minigrid
 import gymnasium
 from utils import preprocess_obs
-from modelling.policy import prepare_curiosity_module, build_actor_critic, build_policy_optim
+from modelling.policy import build_actor_critic
 
 
 # Load the config (YAML) file
