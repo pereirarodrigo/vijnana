@@ -13,8 +13,7 @@ from typing import List, Tuple
 @torch.no_grad()
 def generate_meta_episode(
     env: gym.Env, 
-    policy_module: nn.Module, 
-    critic_module: nn.Module | None,
+    policy_module: nn.Module,
     feature_ext: nn.Module,
     rnd_module: nn.Module, 
     intrinsic_norm: IntrinsicRewardNormaliser,

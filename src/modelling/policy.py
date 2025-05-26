@@ -19,9 +19,9 @@ def prepare_curiosity_module(shared_encoder: RecurrentConvNet, device: str) -> n
     return rnd_module
 
 
-def build_actor_critic(env: gym.Env, config: dict, device: str) -> Tuple[nn.Module, nn.Module, RecurrentConvNet]:
+def build_policy(env: gym.Env, config: dict, device: str) -> Tuple[nn.Module, RecurrentConvNet]:
     """
-    Create the actor-critic networks based on the provided environment.
+    Create the policy network based on the provided environment.
     """
     # Extract environment parameters
     action_dim = env.action_space.n
@@ -40,18 +40,11 @@ def build_actor_critic(env: gym.Env, config: dict, device: str) -> Tuple[nn.Modu
         layer_init(nn.Linear(128, action_dim)),
     ).to(device)
 
-    critic_head = nn.Sequential(
-        layer_init(nn.Linear(config["policy_args"]["num_cells"], 128)),
-        nn.ReLU(),
-        layer_init(nn.Linear(128, 1)),
-    ).to(device)
-
-    return actor_head, critic_head, shared_encoder
+    return actor_head, shared_encoder
 
 
 def build_policy_optim(
     actor_head: nn.Module,
-    critic_head: nn.Module,
     rnd_module: RND,
     shared_encoder: nn.Module,
     config: dict
@@ -61,7 +54,6 @@ def build_policy_optim(
     """
     # Combine parameters
     combined_params = list(actor_head.parameters()) + \
-                      list(critic_head.parameters()) + \
                       list(shared_encoder.parameters()) + \
                       list(rnd_module.predictor_model.parameters())
 

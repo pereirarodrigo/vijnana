@@ -20,7 +20,6 @@ from collections import deque
 def train_policy(
     env: gym.Env,
     policy_module: nn.Module,
-    critic_module: nn.Module,
     feature_ext: nn.Module,
     rnd_module: nn.Module,
     intrinsic_norm: IntrinsicRewardNormaliser,
@@ -59,7 +58,6 @@ def train_policy(
             ep_obs, ep_rewards, ep_actions, ep_ext_rewards, rnd_losses, raw_rnds, norm_rnds = generate_meta_episode(
                 env = env,
                 policy_module = policy_module,
-                critic_module = critic_module,
                 feature_ext = feature_ext,
                 rnd_module = rnd_module,
                 intrinsic_norm = intrinsic_norm,
@@ -164,6 +162,5 @@ def train_policy(
     tb_logger.close()
 
     torch.save(policy_module.state_dict(), f"{save_path}/actor_head.pth")
-    torch.save(critic_module.state_dict(), f"{save_path}/critic_head.pth")
     torch.save(rnd_module.state_dict(), f"{save_path}/rnd_module.pth")
     torch.save(feature_ext.state_dict(), f"{save_path}/feature_extractor.pth")

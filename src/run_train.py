@@ -9,7 +9,7 @@ from torch.utils.tensorboard import SummaryWriter
 import torch
 from utils import train_policy
 from modelling.reward_norm import IntrinsicRewardNormaliser
-from modelling.policy import prepare_curiosity_module, build_actor_critic, build_policy_optim
+from modelling.policy import prepare_curiosity_module, build_policy, build_policy_optim
 
 
 # Load the config (YAML) file
@@ -38,7 +38,7 @@ def main() -> None:
     env = gym.make(id = config["exp_args"]["env_id"], render_mode = None)
 
     # Define and build the policy
-    policy_module, critic_module, feature_ext = build_actor_critic(env, config, device)
+    policy_module, feature_ext = build_policy(env, config, device)
 
     # Prepare the curiosity module
     rnd_module = prepare_curiosity_module(feature_ext, device)
@@ -46,7 +46,6 @@ def main() -> None:
     # Definite the loss, optimiser and LR scheduler
     optimiser, scheduler, combined_net_params = build_policy_optim(
         actor_head = policy_module, 
-        critic_head = critic_module, 
         rnd_module = rnd_module, 
         shared_encoder = feature_ext,
         config = config
@@ -68,7 +67,6 @@ def main() -> None:
     train_policy(
         env = env,
         policy_module = policy_module,
-        critic_module = critic_module,
         rnd_module = rnd_module,
         feature_ext = feature_ext,
         intrinsic_norm = intrinsic_norm,

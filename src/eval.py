@@ -3,7 +3,7 @@ import torch
 import minigrid
 import gymnasium
 from utils import preprocess_obs
-from modelling.policy import build_actor_critic
+from modelling.policy import build_policy
 
 
 # Load the config (YAML) file
@@ -18,11 +18,11 @@ device = (
 )
 
 
-env = gymnasium.make("MiniGrid-Empty-5x5-v0", render_mode = "human")
+env = gymnasium.make("MiniGrid-Unlock-v0", render_mode = "human")
 observation, info = env.reset()
 
-policy_module, _, shared_module = build_actor_critic(env, config, device)
-policy_module.load_state_dict(torch.load("saved_models/MiniGrid-Empty-5x5-v0_pg_rl2/actor_head.pth"))
+policy_module, shared_module = build_policy(env, config, device)
+policy_module.load_state_dict(torch.load("saved_models/MiniGrid-Unlock-v0_pg_rl2/actor_head.pth"))
 policy_module.eval()
 
 # Inference loop
