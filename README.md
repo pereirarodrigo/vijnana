@@ -22,7 +22,7 @@ This project embraces the idea that intelligence may not be imposed from the out
 
 Vijñāna leverages:
 
-- **Random Network Distillation (RND)** for intrinsic reward generation  
+- **Random network distillation (RND)** for intrinsic reward generation  
 - **CNN-GRU encoding** for spatiotemporal representation  
 - **RL² meta-learning** for cross-episode adaptation  
 - **No external rewards**, no hardcoded objectives  
