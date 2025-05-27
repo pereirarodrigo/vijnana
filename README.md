@@ -5,7 +5,7 @@
 
 At its core is the **Recurrent Intrinsic Meta-Learner (RIML)**, a novel architecture integrating curiosity-driven reinforcement learning with meta-learning and temporal encoding. The agent operates *without any extrinsic rewards*, relying solely on recursive novelty signals to structure its behavior.
 
-https://github.com/user-attachments/assets/c3db445c-6700-4474-9474-7802276542ef
+<img src="recordings/minigrid-unlock-agent/eval-episode-0.gif" width="450px" height="250px"></img><br>
 
 ## 🧠 Philosophical Inspiration
 
