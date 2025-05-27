@@ -9,8 +9,8 @@ from gymnasium.wrappers.record_episode_statistics import RecordEpisodeStatistics
 
 
 # Load the config (YAML) file
-with open("src/config.yml", 'r') as file:
-    config = yaml.safe_load(file)
+with open("src/best_params_so_far.yml", 'r') as file:
+    base_config = yaml.safe_load(file)
 
 # Define the device
 device = (
@@ -22,16 +22,19 @@ device = (
 # Set the number of evaluation episodes
 num_eval_episodes = 200
 
+# Set the environment of interest
+env_name = "MiniGrid-Unlock-v0"
+config = base_config[env_name]
 
 # Setting up the env and recording options
-env = gymnasium.make("MiniGrid-Unlock-v0", render_mode = "human")
+env = gymnasium.make(env_name, render_mode = "rgb_array")
 env = RecordVideo(
     env, 
     video_folder = "recordings/minigrid-unlock-agent", 
     name_prefix = "eval",
     episode_trigger = lambda x: True
 )
-env = RecordEpisodeStatistics(env, buffer_length = num_eval_episodes)
+env = RecordEpisodeStatistics(env)
 observation, info = env.reset()
 
 policy_module, shared_module = build_policy(env, config, device)

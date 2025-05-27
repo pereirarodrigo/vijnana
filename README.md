@@ -5,12 +5,15 @@
 
 At its core is the **Recurrent Intrinsic Meta-Learner (RIML)**, a novel architecture integrating curiosity-driven reinforcement learning with meta-learning and temporal encoding. The agent operates *without any extrinsic rewards*, relying solely on recursive novelty signals to structure its behavior.
 
+<video width="420" height="340" autoplay controls>
+  <source src="recordings/minigrid-unlock-agent/eval-episode-0.mp4" type="video/mp4">
+</video>
 
 ## 🧠 Philosophical Inspiration
 
 The name *Vijñāna* draws from **Yogācāra** and **Madhyamaka** traditions in Buddhist philosophy:
 
-- **Vijñapti-mātra**: All reality is mere consciousness.
+- **Vijñaptimātra**: All reality is mere consciousness.
 - **Pratītyasamutpāda**: All phenomena arise dependently - a philosophical precursor to *emergence*.
 
 This project embraces the idea that intelligence may not be imposed from the outside, but may *emerge from within* through recursive curiosity and temporal deliberation.
