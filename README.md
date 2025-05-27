@@ -1,7 +1,7 @@
 <img src="img/logo.png" width="500px" height="150px"></img><br>
 
 
-**Vijñāna** (from Sanskrit, *"consciousness"*) is a proof-of-concept reinforcement learning system that, in essence, *learns to learn what to be curious about*. This repository accompanies my paper **“Temporal Meta-Curiosity via Recurrent Self-Reinforcing Intrinsic Meta-Learning”**.
+**Vijñāna** (from Sanskrit, *"consciousness"*) is a proof-of-concept reinforcement learning system that, in essence, *learns to learn what to be curious about*. This repository accompanies my paper [**“Temporal Meta-Curiosity via Recurrent Self-Reinforcing Intrinsic Meta-Learning”**](https://zenodo.org/records/15528605).
 
 At its core is the **Recurrent Intrinsic Meta-Learner (RIML)**, an architecture integrating curiosity-driven reinforcement learning with meta-learning and temporal encoding. The agent operates *without any extrinsic rewards*, relying solely on recursive novelty signals to structure its behavior.
 
